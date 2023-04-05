@@ -1,0 +1,117 @@
+#include <cs50.h>
+#include <stdio.h>
+
+long get_credit(void);
+int sumother(long cre);
+int sumlast(long cre);
+int firsttow(long cre);
+int length(long cre);
+
+int main(void)
+{
+    // the creditcard number
+    long credit = get_credit();
+
+    // the sum of digit of double from pre last
+    int other = sumother(credit);
+    // the sum of digit from last
+    int last = sumlast(credit);
+    // the sum of the two
+    int sumall = other + last;
+
+    // first two digitd
+    int frtow = firsttow(credit);
+    // first one
+    int fron = firsttow(credit) / 10;
+
+    // the digit count of the creditcard number
+    int lngth = length(credit);
+
+    // checking
+    if (sumall % 10 != 0)
+    {
+        printf("INVALID\n");
+    }
+    else
+    {
+        if ((lngth == 15) && (frtow == 34 || frtow == 37))
+        {
+            printf("AMEX\n");
+        }
+        else if ((lngth == 16) && (frtow == 51 || frtow == 52 || frtow == 53 || frtow == 54 || frtow == 55))
+        {
+            printf("MASTERCARD\n");
+        }
+        else if ((lngth == 13 || lngth == 16) && (fron == 4))
+        {
+            printf("VISA\n");
+        }
+        else
+        {
+            printf("INVALID\n");
+        }
+    }
+}
+
+// prompting the user for the number
+long get_credit(void)
+{
+    long i;
+    do
+    {
+        i = get_long("Number: ");
+    }
+    while (i < 1);
+    return i;
+}
+
+// the sum of digit of the doubling of every other to prelast number
+int sumother(long cre)
+{
+    int i = 0;
+    while (cre > 0)
+    {
+        int s = ((cre % 100) / 10) * 2;
+        while (s > 0)
+        {
+            i += s % 10;
+            s = s / 10;
+        }
+        cre = cre / 100;
+    }
+    return i;
+}
+
+//  the sum of every digit of every other to last number
+int sumlast(long cre)
+{
+    int j = 0;
+    while (cre > 0)
+    {
+        j += (cre % 10);
+        cre = cre / 100;
+    }
+    return j;
+}
+
+// frist two digits
+int firsttow(long cre)
+{
+    while (cre > 99)
+    {
+        cre = cre / 10;
+    }
+    return cre;
+}
+
+// creditcard length
+int length(long cre)
+{
+    int i = 0;
+    while (cre > 0)
+    {
+        i++;
+        cre = cre / 10;
+    }
+    return i;
+}
